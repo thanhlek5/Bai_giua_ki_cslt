@@ -81,6 +81,7 @@ void addBook(Book books[], int &size, int max_size) {
     cout << "Nhap ma sach: ";
     cin >> newBook.code;
 
+    // nếu đã có sách thì thêm số lượng sách và đơn giá nhậpnhập
     for (int i = 0; i < size; i++) {
         if (books[i].code == newBook.code) {
             cout << "Sach da ton tai, cong don so luong.\n";
@@ -98,7 +99,7 @@ void addBook(Book books[], int &size, int max_size) {
         }
     }
 
-
+    //  còn chưa thì thêm sáchsách
     cout << "Nhap ten sach: ";
     cin.ignore();
     getline(cin, newBook.name);
@@ -114,43 +115,47 @@ void addBook(Book books[], int &size, int max_size) {
 
     newBook.total_value = newBook.stock * newBook.price;
 
+    // dịch các sách sau vị trí thêm
     for (int i = size; i >= position; i--) {
         books[i] = books[i - 1];
     }
 
-    books[position - 1] = newBook;
+    books[position - 1] = newBook;  // thêm sách vào vị trí thêmthêm
     size++;
     cout << "Them sach thanh cong!\n";
 }
 
+// Hàm xóa sách   
 void deleteBook(Book books[], int &size) {
+    // nếu ko có sách trong danh sách 
     if (size == 0) {
         cout << "Danh sach trong!\n";
         return;
     }
-
+    // nhập mã sách muốn xóa
     string code;
     cout << "Nhap ma sach can xoa: ";
     cin >> code;
 
-    for (int i = 0; i < size; i++) {
-        if (books[i].code == code) {
-            for (int j = i; j < size - 1; j++) {
-                books[j] = books[j + 1];
+    for (int i = 0; i < size; i++) {  
+        if (books[i].code == code) {     // tìm thấy mã sách cần xóa 
+            for (int j = i; j < size - 1; j++) {   // chạy thêm một vòng lặp nữa 
+                books[j] = books[j + 1]; // sách cần xóa sẽ đc thay thành sách phía sau nó và lập lại đến cuốn sách cuối cùng! 
             }
-            size--;
+            size--; // kích thước sẽ bị trừ đi 1 là sách đã bị xóa 
             cout << "xoa sach thanh cong!\n";
             return;
         }
     }
+    //  nếu không tìm thấy mã sách cần xóa 
     cout << "Khong tim thay ma trong danh sach!\n";
 }
 // Hàm sắp xếp 
 void sortBooksBySellPrice(Book books[], int size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = i + 1; j < size; j++) {
-            if (books[i].sell_price < books[j].sell_price) {
-                Book temp = books[i];
+            if (books[i].sell_price < books[j].sell_price) {  // nếu sách ở vị trí i bé hơn sách ở vị trí j thì sẽ hoán đổi vị trí chúng cho nhau 
+                Book temp = books[i]; // bước hoán đổi hai vị trí bằng cách dùng biến phụ "có thể dùng swap() nếu muốn"
                 books[i] = books[j];
                 books[j] = temp;
             }
@@ -171,7 +176,7 @@ string formatNumber(long long num) {
         formatted = numStr[i] + formatted;    // thêm các số vào biến kết quả
         count++; 
         if (count % 3 == 0 && i != 0) {   // nếu biến đếm chia hết cho 3 và i khác không thì thêm vào biến kết quả dấu (.)
-            formatted = "." + formatted; // thêm dấu chấmchấm
+            formatted = "." + formatted; // thêm dấu chấm
         }
     }
 
@@ -212,7 +217,7 @@ int main() {
     Book books[MAX_SIZE];
     int size = 0;
 
-    int choice; // biến để chọn chức năngnăng
+    int choice; // biến để chọn chức năng
     do {   // vòng lặp chức năng 
         cout <<"\nMenu:\n"
             << "1. Nhap danh sach sach\n"
